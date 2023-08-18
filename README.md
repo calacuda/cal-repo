@@ -1,6 +1,6 @@
 # cal-repo
 
-the custom repos for CAL Linux
+the custom repos for [CAL Linux](https://github.com/calacuda/cal-linux)
 
 ## Adding This Repo
 
