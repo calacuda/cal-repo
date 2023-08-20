@@ -29,7 +29,7 @@ build-pkgs () {
 
 update-one () {
   build-pkg $1
-  # add-to-repo
+  add-to-repo
   push-changes
 }
 
