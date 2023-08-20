@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-build-pkg () {
+build_pkg () {
   cd $1
   makepkg
   mv *x86_64.pkg.tar.zst ../../../x86_64/
@@ -23,12 +23,12 @@ add-to-repo () {
 
 build-pkgs () {
   for dir in pkgbuilds/x86_64/*; do 
-    build-pkg $dir
+    build_pkg $dir
   done
 }
 
 update-one () {
-  build-pkg $1
+  build_pkg $1
   add-to-repo
   push-changes
 }
