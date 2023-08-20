@@ -18,6 +18,7 @@ a list of things to package and add to this repo.
 
 - pokedex-git
 - autodesk-git
+- auto-tmux-git
 - astro-nvim-git
 - astro-nvim-configs-git
 - bspwm-configs-git
