@@ -24,13 +24,13 @@ jobs:
       - uses: actions/checkout@v3
       - name: "Build"
         run: |
-          useradd -ms /bin/bash build-user
-          pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
+          # useradd -ms /bin/bash build-user
+          # pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          # cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
           cd /tmp
-          sudo -u build-user makepkg
+          # sudo -u build-user makepkg
 
-          # echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+          echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
 
           # cd -
           # cp /tmp/*.pkg.tar.zst x86_64/
@@ -46,6 +46,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
