@@ -24,6 +24,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         run: |
+          useradd -ms /bin/bash build-user
+          su build-user
           source ./update-lib.sh
           build_pkg pkgbuilds/x86_64/PenTestDB
       - name: commit new-pkg
@@ -43,6 +45,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Update repo DB
         run: |
+          useradd -ms /bin/bash build-user
+          su build-user
           source ./update-lib.sh
           add_to_repo
       - name: commit new-pkg
