@@ -16,30 +16,33 @@ on:
     - cron: "30 2 1 * *"
 
 jobs:
-  # pentestdb-git:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: archlinux
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: "Build"
-  #       run: |
-  #         useradd -ms /bin/bash build-user
-  #         pacman -Syyu sudo base-devel git rust --needed --noconfirm
-  #         cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
-  #         cd /tmp
-  #         sudo -u build-user makepkg
-  #         # cd -
-  #         # cp /tmp/*.pkg.tar.zst x86_64/
-  #     - name: "Upload PTDB build artifacts"
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: pentestdb
-  #         path: /tmp/*.pkg.tar.zst
-  #         retention-days: 5
+  pentestdb-git:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Build"
+        run: |
+          useradd -ms /bin/bash build-user
+          pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
+          cd /tmp
+          # sudo -u build-user makepkg
+
+          echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+
+          # cd -
+          # cp /tmp/*.pkg.tar.zst x86_64/
+      - name: "Upload PTDB build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: pentestdb
+          path: /tmp/*.pkg.tar.zst
+          retention-days: 5
 
   update-repo:
-    # needs: ["pentestdb-git"]
+    needs: ["pentestdb-git"]
     runs-on: ubuntu-latest
     container:
       image: archlinux
