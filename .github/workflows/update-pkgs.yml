@@ -25,12 +25,12 @@ jobs:
       - name: "Build"
         run: |
           useradd -ms /bin/bash build-user
-          # pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          pacman -Syyu sudo base-devel git rust --needed --noconfirm
           cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
           cd /tmp
-          # sudo -u build-user makepkg
+          sudo -u build-user makepkg
 
-          echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+          # echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
 
           # cd -
           # cp /tmp/*.pkg.tar.zst x86_64/
@@ -63,5 +63,6 @@ jobs:
         with:
           add: "x86_64"
           author_name: "auto-updater"
+          author_email: mail@example.com
           message: "automatic repo update"
           push: true
