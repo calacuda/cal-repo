@@ -58,15 +58,16 @@ jobs:
       - name: Update repo DB
         run: |
           useradd -ms /bin/bash build-user
-          pacman -Syu sudo base-devel --needed --noconfirm
+          pacman -Syu sudo base-devel git --needed --noconfirm
           rm x86_64/*.pkg.tar.zst
           cp *.pkg.tar.zst x86_64/
+          echo "nothing" > x86_64/test-file.txt
           bash -c "source ./update-lib.sh; add_to_repo"
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
         with:
           add: "x86_64"
-          author_name: "auto-updater"
-          author_email: mail@example.com
+          # author_name: "auto-updater"
+          # author_email: mail@example.com
           message: "automatic repo update"
           push: true
