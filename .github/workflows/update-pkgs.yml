@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: |
           useradd -ms /bin/bash build-user
-          pacman -Sy sudo
+          pacman -Sy sudo --noconfirm
           source ./update-lib.sh
           sudo -u build-user build_pkg pkgbuilds/x86_64/PenTestDB
       - name: commit new-pkg
@@ -46,7 +46,7 @@ jobs:
       - name: Update repo DB
         run: |
           useradd -ms /bin/bash build-user
-          pacman -Sy sudo
+          pacman -Sy sudo --noconfirm
           source -u build-user ./update-lib.sh
           add_to_repo
       - name: commit new-pkg
