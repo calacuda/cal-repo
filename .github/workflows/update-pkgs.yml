@@ -22,26 +22,21 @@ jobs:
       image: archlinux
     steps:
       - uses: actions/checkout@v3
-      - name: Build
+      - name: "Build"
         run: |
           useradd -ms /bin/bash build-user
           pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          # sudo -u build-user cp pkgbuilds/x86_64/PenTestDB/PKGBUILD ~/
-          # sudo -u build-user cp make-pkg.sh ~/
-          # sudo -u build-user cp update-lib.sh ~/
-          # cd /home/build-user
           cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
           cd /tmp
           sudo -u build-user makepkg
           cd -
           cp /tmp/*x86_64.pkg.tar.zst x86_64/
-      - name: commit new-pkg
-        uses: EndBug/add-and-commit@v9.1.3
+      - name: "Upload PTDB build artifacts"
+        uses: actions/upload-artifact@v3
         with:
-          add: "x86_64"
-          author_name: "auto-updater"
-          message: "automatic repo update"
-          push: true
+          name: pentestdb
+          path: /tmp/*x86_64.pkg.tar.zst
+          retention-days: 5
 
   update-repo:
     needs: ["pentestdb-git"]
@@ -50,12 +45,19 @@ jobs:
       image: archlinux
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: pentestdb
       - name: Update repo DB
         run: |
-          useradd -ms /bin/zsh build-user
-          pacman -Sy sudo --noconfirm
+          useradd -ms /bin/bash build-user
+          pacman -Syu sudo base-devel --needed --noconfirm
+
+          rm x86_64/*x86_64.pkg.tar.zst
+          cp /tmp/*x86_64.pkg.tar.zst x86_64/
+
           source -u build-user ./update-lib.sh
-          sudo add_to_repo
+          sudo -u build-user add_to_repo
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
         with:
