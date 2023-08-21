@@ -44,8 +44,8 @@ jobs:
   update-repo:
     needs: ["pentestdb-git"]
     runs-on: ubuntu-latest
-    container:
-      image: archlinux
+    # container:
+    #   image: archlinux
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
       # added or changed files to the repository.
@@ -56,17 +56,18 @@ jobs:
         with:
           name: pentestdb
       - name: Update repo DB
-        run: |
+        uses: docker://archlinux:latest
+        args: |
+          sh -c "
           useradd -ms /bin/bash build-user
           pacman -Syu sudo base-devel git --needed --noconfirm
           rm x86_64/*.pkg.tar.zst
           mv *.pkg.tar.zst x86_64/
-          echo "nothing" > x86_64/test-file.txt
-          bash -c "source ./update-lib.sh; add_to_repo"
+          echo \"nothing\" > x86_64/test-file.txt
+          bash -c \"source ./update-lib.sh; add_to_repo\"
           pwd
           ls -la
-          echo ".github"
-          ls -la .github
+          ls -la .github"
       - name: Commit new/updated pkgs
         run: |
           git config user.name "auto-updater"
