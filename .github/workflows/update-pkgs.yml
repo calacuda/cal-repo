@@ -28,7 +28,6 @@ jobs:
           pacman -Sy sudo --noconfirm
           pwd
           ls
-          cd cal-repo
           sudo -u build-user ./make-pkg.sh pkgbuilds/x86_64/PenTestDB
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
