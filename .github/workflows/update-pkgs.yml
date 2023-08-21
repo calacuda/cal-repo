@@ -26,9 +26,7 @@ jobs:
         run: |
           useradd -ms /bin/zsh build-user
           pacman -Sy sudo --noconfirm
-          pwd
-          ls
-          sudo -u build-user ./make-pkg.sh pkgbuilds/x86_64/PenTestDB
+          sudo -u build-user make-pkg.sh pkgbuilds/x86_64/PenTestDB
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
         with:
