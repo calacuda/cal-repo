@@ -1,19 +1,19 @@
 #!/usr/bin/zsh
 
-build_pkg () {
+function build_pkg {
   cd $1
   makepkg
   mv *x86_64.pkg.tar.zst ../../../x86_64/
   cd -
 }
 
-push_changes () {
+function push_changes {
   git add x86_64
   git commit -m "scheduled db update"
   git push
 }
 
-add_to_repo () {
+function add_to_repo {
   cd x86_64
   repo-add cal-repo.db.tar.gz *.pkg.tar.zst
   mv cal-repo.db.tar.gz cal-repo.db
@@ -21,19 +21,19 @@ add_to_repo () {
   cd -
 }
 
-build_pkgs () {
+function build_pkgs {
   for dir in pkgbuilds/x86_64/*; do 
     build_pkg $dir
   done
 }
 
-update_one () {
+function update_one {
   build_pkg $1
   add_to_repo
   push_changes
 }
 
-update_all () {
+function update_all {
   build_pkgs
   add_to_repo
   push_changes
