@@ -14,7 +14,7 @@ function push_changes {
 function add_to_repo {
   cd x86_64
   repo-add cal-repo.db.tar.gz *.pkg.tar.zst
-  ls -la
+  # ls -la
   mv cal-repo.db.tar.gz cal-repo.db
   mv cal-repo.files.tar.gz cal-repo.files
   cd -
