@@ -31,7 +31,7 @@ jobs:
           # cd /home/build-user
           cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
           cd /tmp
-          sudo -u nobody makepkg
+          sudo -u nobody makepkg -s
           cd -
           cp /tmp/*x86_64.pkg.tar.zst x86_64/
       - name: commit new-pkg
