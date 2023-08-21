@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: |
           useradd -ms /bin/bash build-user
-          pacman -Sy sudo base-devel git rust --needed --noconfirm
+          pacman -Syyu sudo base-devel git rust --needed --noconfirm
           # sudo -u build-user cp pkgbuilds/x86_64/PenTestDB/PKGBUILD ~/
           # sudo -u build-user cp make-pkg.sh ~/
           # sudo -u build-user cp update-lib.sh ~/
