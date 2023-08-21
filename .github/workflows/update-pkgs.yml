@@ -24,14 +24,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build
         run: |
-          pacman -Sy sudo base-devel --needed --noconfirm
+          useradd -ms /bin/bash build-user
+          pacman -Sy sudo base-devel git rust --needed --noconfirm
           # sudo -u build-user cp pkgbuilds/x86_64/PenTestDB/PKGBUILD ~/
           # sudo -u build-user cp make-pkg.sh ~/
           # sudo -u build-user cp update-lib.sh ~/
           # cd /home/build-user
           cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
           cd /tmp
-          sudo -u nobody makepkg -s
+          sudo -u build-user makepkg
           cd -
           cp /tmp/*x86_64.pkg.tar.zst x86_64/
       - name: commit new-pkg
