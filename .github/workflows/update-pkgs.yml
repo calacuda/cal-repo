@@ -25,9 +25,8 @@ jobs:
       - name: Build
         run: |
           useradd -ms /bin/bash build-user
-          su build-user
           source ./update-lib.sh
-          build_pkg pkgbuilds/x86_64/PenTestDB
+          sudo -u build-user build_pkg pkgbuilds/x86_64/PenTestDB
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
         with:
@@ -46,8 +45,7 @@ jobs:
       - name: Update repo DB
         run: |
           useradd -ms /bin/bash build-user
-          su build-user
-          source ./update-lib.sh
+          source -u build-user ./update-lib.sh
           add_to_repo
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
