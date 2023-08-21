@@ -1,5 +1,3 @@
-#!/usr/bin/zsh
-
 function build_pkg {
   cd $1
   makepkg
