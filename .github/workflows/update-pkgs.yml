@@ -57,7 +57,7 @@ jobs:
           pacman -Syu sudo base-devel --needed --noconfirm
           rm x86_64/*.pkg.tar.zst
           cp *.pkg.tar.zst x86_64/
-          source -u build-user ./update-lib.sh
+          source ./update-lib.sh
           sudo -u build-user add_to_repo
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
