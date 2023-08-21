@@ -24,3 +24,4 @@ a list of things to package and add to this repo.
 - bspwm-configs-git
 - qtile-configs-git
 - hyprland-configs-git
+- zsh-configs-git
