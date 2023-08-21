@@ -27,8 +27,8 @@ a list of things to package and add to this repo.
 
 ## TODO:
 
-- add install of home folder scripts to `/etc/skel` for pkg pentestdb-git
-- add github workflow to do the following every sundays at midnight:
-  - rebuild all pkg builds.
-  - add the new packages to the package db.
-  - commit the updated packages and data base but not the updated PKGBUILDS.
+- [x] add install of home folder scripts to `/etc/skel` for pkg pentestdb-git
+- [ ] add github workflow to do the following every sundays at midnight:
+  - [ ] rebuild all pkg builds.
+  - [ ] add the new packages to the package db.
+  - [ ] commit the updated packages and data base but not the updated PKGBUILDS.
