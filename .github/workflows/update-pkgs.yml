@@ -7,14 +7,14 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: ["main"]
-    paths: ["pkgbuilds/**"]
+    paths: ["pkgbuilds/**", ".github/workflow"]
   pull_request:
     branches: ["main"]
-    paths: ["pkgbuilds/**"]
+    paths: ["pkgbuilds/**", ".github/workflow"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
-    - cron: "30 2 1 * *"
+    - cron: "30 2 * * *"
 
 jobs:
   pentestdb-git:
@@ -62,7 +62,6 @@ jobs:
             pacman -Syu sudo base-devel git --needed --noconfirm
             rm x86_64/*.pkg.tar.zst
             mv *.pkg.tar.zst x86_64/
-            echo \"nothing\" > x86_64/test-file.txt
             bash -c \"source ./update-lib.sh; add_to_repo\""
       - name: commit new-pkg
         uses: EndBug/add-and-commit@v9.1.3
