@@ -7,10 +7,10 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: ["main"]
-    paths: ["pkgbuilds/**", ".github/workflow/"]
+    paths: ["pkgbuilds/**"]
   pull_request:
     branches: ["main"]
-    paths: ["pkgbuilds/**", ".github/workflow/"]
+    paths: ["pkgbuilds/**"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
@@ -23,7 +23,15 @@ jobs:
       image: archlinux
     steps:
       - uses: actions/checkout@v3
-      - name: "Build"
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'pkgbuilds/x86_64/PenTestDB/PKGBUILD'
+
+      - if: steps.changes.outputs.src == 'true'
+        name: "Build"
         run: |
           useradd -ms /bin/bash build-user
           pacman -Syyu sudo base-devel git rust --needed --noconfirm
@@ -31,8 +39,8 @@ jobs:
           cd /tmp
           sudo -u build-user makepkg
 
-          # echo "NOTHING" > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
-      - name: "Upload PTDB build artifacts"
+      - if: steps.changes.outputs.src == 'true'
+        name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
         with:
           name: pentestdb
