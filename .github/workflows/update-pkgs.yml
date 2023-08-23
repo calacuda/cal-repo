@@ -14,7 +14,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
-    - cron: "30 2 * * *"
+    - cron: "30 6 * * *"
 
 jobs:
   pentestdb-git:
@@ -22,18 +22,7 @@ jobs:
     # container:
     #   image: archlinux
     steps:
-      - uses: actions/checkout@v3
-      # - name: which event trigger
-      #   run: echo "github.event_name == '${{ github.event_name }}'"
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            src:
-              - 'pkgbuilds/x86_64/pentestdb-git/PKGBUILD'
-
-      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
-        name: "Build"
+      - name: "Build"
         uses: docker://archlinux:latest
         with:
           args: |
@@ -44,8 +33,7 @@ jobs:
             cd /tmp
             sudo -u build-user makepkg"
 
-      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
-        name: "Upload PTDB build artifacts"
+      - name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
         with:
           name: pentestdb-git
@@ -58,15 +46,7 @@ jobs:
     #   image: archlinux
     steps:
       - uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            src:
-              - 'pkgbuilds/x86_64/auto-desk-git/PKGBUILD'
-
-      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
-        name: "Build"
+      - name: "Build"
         uses: docker://archlinux:latest
         with:
           args: |
@@ -78,8 +58,7 @@ jobs:
             cd /tmp
             sudo -u build-user makepkg"
 
-      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
-        name: "Upload auto-desk build artifacts"
+      - name: "Upload auto-desk build artifacts"
         uses: actions/upload-artifact@v3
         with:
           name: auto-desk-git
