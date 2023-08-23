@@ -32,12 +32,14 @@ jobs:
             pacman -Syyu sudo base-devel git rust --needed --noconfirm
             cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
             cd /tmp
-            sudo -u build-user makepkg"
+            sudo -u build-user makepkg
+            pwd
+            ls -la"
 
       - name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: pentestdb_git
+          name: pentestdb-git
           path: /tmp/*.pkg.tar.zst
           retention-days: 5
 
@@ -57,12 +59,15 @@ jobs:
             pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
             cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
             cd /tmp
-            sudo -u build-user makepkg"
+            sudo -u build-user makepkg
+            pwd
+            ls -la
+            "
 
       - name: "Upload auto-desk build artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: auto_desk_git
+          name: auto-desk-git
           path: /tmp/*.pkg.tar.zst
           retention-days: 5
 
@@ -76,11 +81,11 @@ jobs:
       - name: "Download pentestdb-git"
         uses: actions/download-artifact@v3
         with:
-          name: pentestdb_git
+          name: pentestdb-git
       - name: "Download auto-desk-git"
         uses: actions/download-artifact@v3
         with:
-          name: auto_desk_git
+          name: auto-desk-git
       - name: Update repo DB
         uses: docker://archlinux:latest
         with:
