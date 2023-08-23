@@ -29,6 +29,8 @@ jobs:
             sh -c "
             useradd -ms /bin/bash build-user
             pacman -Syyu sudo base-devel git rust --needed --noconfirm
+            pwd
+            ls -la
             cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
             cd /tmp
             sudo -u build-user makepkg"
