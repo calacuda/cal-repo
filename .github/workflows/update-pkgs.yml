@@ -19,8 +19,8 @@ on:
 jobs:
   pentestdb-git:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux
+    # container:
+    #   image: archlinux
     steps:
       - uses: actions/checkout@v3
       # - name: which event trigger
@@ -34,12 +34,15 @@ jobs:
 
       - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Build"
-        run: |
-          useradd -ms /bin/bash build-user
-          pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
-          cd /tmp
-          sudo -u build-user makepkg
+        uses: docker://archlinux:latest
+        with:
+          args: |
+            sh -c "
+            useradd -ms /bin/bash build-user
+            pacman -Syyu sudo base-devel git rust --needed --noconfirm
+            cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
+            cd /tmp
+            sudo -u build-user makepkg"
 
       - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Upload PTDB build artifacts"
@@ -51,8 +54,8 @@ jobs:
 
   auto-desk-git:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux
+    # container:
+    #   image: archlinux
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
@@ -64,12 +67,15 @@ jobs:
 
       - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Build"
-        run: |
-          useradd -ms /bin/bash build-user
-          pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
-          cd /tmp
-          sudo -u build-user makepkg
+        uses: docker://archlinux:latest
+        with:
+          args: |
+            sh -c "
+            useradd -ms /bin/bash build-user
+            pacman -Syyu sudo base-devel git rust --needed --noconfirm
+            cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
+            cd /tmp
+            sudo -u build-user makepkg"
 
       - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Upload auto-desk build artifacts"
