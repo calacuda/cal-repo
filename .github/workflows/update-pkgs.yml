@@ -26,8 +26,8 @@ jobs:
       - name: "Build"
         uses: docker://archlinux:latest
         with:
-          volumes: /tmp:/tmp
           args: |
+            -v /tmp:/tmp
             sh -c "
             useradd -ms /bin/bash build-user
             # pacman -Syyu sudo base-devel git rust --needed --noconfirm
@@ -54,8 +54,8 @@ jobs:
       - name: "Build"
         uses: docker://archlinux:latest
         with:
-          volumes: /tmp:/tmp
           args: |
+            -v /tmp:/tmp
             sh -c "
             useradd -ms /bin/bash build-user
             # pacman-key --init 
