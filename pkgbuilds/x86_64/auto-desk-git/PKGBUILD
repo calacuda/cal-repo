@@ -1,0 +1,62 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+pkg_ver=0.5.0
+
+# Maintainer: Calacuda <youremail@domain.com>
+pkgname=auto-desk-git
+pkgver=0.5.0.r
+pkgrel=1
+epoch=
+pkgdesc="Controls Linux tiling window managers and desktop environments."
+arch=(x86_64)
+url="https://github.com/calacuda/auto-desk"
+license=('MIT')
+groups=()
+depends=()
+makedepends=(git rust)
+checkdepends=()
+optdepends=()
+provides=(ptdb)
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=("git+$url")
+noextract=()
+md5sums=('SKIP')
+validpgpkeys=()
+
+
+pkgver() {
+	cd "$srcdir/$_pkgname/auto-desk"
+	# printf "$pkgver.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	printf "$pkg_ver.r%s" "$(git describe --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/$_pkgname/auto-desk"
+ 	cargo build --release --target-dir target
+}
+
+# check() {
+# 	cd "$pkgname-$pkgver"
+# 	make -k check
+# }
+
+package() {
+	cd "$srcdir/$_pkgname/auto-desk"
+
+	install -Dm 755 target/release/auto-desk "${pkgdir}/usr/bin/auto-desk"
+	install -Dm 755 target/release/port-sentinel "${pkgdir}/usr/bin/port-sentinel"
+
+	mkdir -p "${pkgdir}"/etc/skel/.config/auto-desk/
+
+	install -Dm 644 auto-desk.service "${pkgdir}/etc/skel/.config/systemd/user/auto-desk.service"
+	install -Dm 644 auto-desk.service "${pkgdir}/usr/lib/systemd/user/auto-desk.service"
+	install -Dm 644 port-sentinel.service "${pkgdir}/etc/systemd/user/port-sentinel.service"
+}

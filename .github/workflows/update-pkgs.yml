@@ -1,16 +1,16 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Update Package Database
+name: Update Package Nightly
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: ["main"]
-    paths: ["pkgbuilds/**"]
+    paths: ["pkgbuilds/**/*"]
   pull_request:
     branches: ["main"]
-    paths: ["pkgbuilds/**"]
+    paths: ["pkgbuilds/**/*"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
@@ -23,44 +23,77 @@ jobs:
       image: archlinux
     steps:
       - uses: actions/checkout@v3
+      # - name: which event trigger
+      #   run: echo "github.event_name == '${{ github.event_name }}'"
       - uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             src:
-              - 'pkgbuilds/x86_64/PenTestDB/PKGBUILD'
+              - 'pkgbuilds/x86_64/pentestdb-git/PKGBUILD'
 
-      - if: steps.changes.outputs.src == 'true'
+      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Build"
         run: |
           useradd -ms /bin/bash build-user
           pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          cp pkgbuilds/x86_64/PenTestDB/PKGBUILD /tmp
+          cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
           cd /tmp
           sudo -u build-user makepkg
 
-      - if: steps.changes.outputs.src == 'true'
+      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
         name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: pentestdb
+          name: pentestdb-git
+          path: /tmp/*.pkg.tar.zst
+          retention-days: 5
+
+  auto-desk-git:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'pkgbuilds/x86_64/auto-desk-git/PKGBUILD'
+
+      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
+        name: "Build"
+        run: |
+          useradd -ms /bin/bash build-user
+          pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
+          cd /tmp
+          sudo -u build-user makepkg
+
+      - if: ${{ (steps.changes.outputs.src == 'true') || (github.event_name == 'schedule') }}
+        name: "Upload auto-desk build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: auto-desk-git
           path: /tmp/*.pkg.tar.zst
           retention-days: 5
 
   update-repo:
     needs: ["pentestdb-git"]
     runs-on: ubuntu-latest
-    # container:
-    #   image: archlinux
     permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the
-      # added or changed files to the repository.
       contents: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
+      - name: "Download pentestdb-git"
+        uses: actions/download-artifact@v3
         with:
-          name: pentestdb
+          name: pentestdb-git
+      - name: "Download auto-desk-git"
+        uses: actions/download-artifact@v3
+        with:
+          name: auto-desk-git
       - name: Update repo DB
         uses: docker://archlinux:latest
         with:
