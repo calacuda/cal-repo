@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pentestdb-git
-          path: ./pentestdb-git*
+          path: /tmp/pentestdb-git*
           retention-days: 5
 
   auto-desk-git:
