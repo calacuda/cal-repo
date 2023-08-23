@@ -72,7 +72,8 @@ jobs:
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
-            pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang --needed --noconfirm
+            pacman-key --init
+            pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
             cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
             cd /tmp
             sudo -u build-user makepkg"
@@ -106,6 +107,7 @@ jobs:
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
+            pacman-key --init
             pacman -Syu sudo base-devel git --needed --noconfirm
             rm x86_64/*.pkg.tar.zst
             mv *.pkg.tar.zst x86_64/
