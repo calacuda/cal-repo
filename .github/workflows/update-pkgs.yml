@@ -37,7 +37,7 @@ jobs:
       - name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: pentestdb-git
+          name: pentestdb_git
           path: /tmp/*.pkg.tar.zst
           retention-days: 5
 
@@ -62,7 +62,7 @@ jobs:
       - name: "Upload auto-desk build artifacts"
         uses: actions/upload-artifact@v3
         with:
-          name: auto-desk-git
+          name: auto_desk_git
           path: /tmp/*.pkg.tar.zst
           retention-days: 5
 
@@ -76,11 +76,11 @@ jobs:
       - name: "Download pentestdb-git"
         uses: actions/download-artifact@v3
         with:
-          name: pentestdb-git
+          name: pentestdb_git
       - name: "Download auto-desk-git"
         uses: actions/download-artifact@v3
         with:
-          name: auto-desk-git
+          name: auto_desk_git
       - name: Update repo DB
         uses: docker://archlinux:latest
         with:
