@@ -91,11 +91,11 @@ jobs:
             rm x86_64/*.pkg.tar.zst
             mv *.pkg.tar.zst x86_64/
             bash -c \"source ./update-lib.sh; add_to_repo\""
-      # - name: commit new-pkg
-      #   uses: EndBug/add-and-commit@v9.1.3
-      #   with:
-      #     add: "x86_64"
-      #     author_name: "auto-updater"
-      #     # author_email: mail@example.com
-      #     message: "automatic repo update"
-      #     push: true
+      - name: commit new-pkg
+        uses: EndBug/add-and-commit@v9.1.3
+        with:
+          add: "x86_64"
+          author_name: "auto-updater"
+          # author_email: mail@example.com
+          message: "automatic repo update"
+          push: true
