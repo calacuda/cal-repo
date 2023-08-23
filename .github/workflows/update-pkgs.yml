@@ -26,6 +26,7 @@ jobs:
       - name: "Build"
         uses: docker://archlinux:latest
         with:
+          volumes: /tmp:/tmp
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
@@ -53,6 +54,7 @@ jobs:
       - name: "Build"
         uses: docker://archlinux:latest
         with:
+          volumes: /tmp:/tmp
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
