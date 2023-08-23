@@ -29,10 +29,11 @@ jobs:
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
-            pacman -Syyu sudo base-devel git rust --needed --noconfirm
+            # pacman -Syyu sudo base-devel git rust --needed --noconfirm
             cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
             cd /tmp
-            sudo -u build-user makepkg
+            # sudo -u build-user makepkg
+            echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
             pwd
             ls -la"
 
@@ -40,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pentestdb-git
-          path: /tmp/*.pkg.tar.zst
+          path: *.pkg.tar.zst
           retention-days: 5
 
   auto-desk-git:
@@ -55,11 +56,11 @@ jobs:
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
-            pacman-key --init
-            pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
+            # pacman-key --init 
+            # pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
             cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
             cd /tmp
-            sudo -u build-user makepkg
+            # sudo -u build-user makepkg
             pwd
             ls -la
             "
@@ -68,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: auto-desk-git
-          path: /tmp/*.pkg.tar.zst
+          path: *.pkg.tar.zst
           retention-days: 5
 
   update-repo:
