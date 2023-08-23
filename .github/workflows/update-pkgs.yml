@@ -72,7 +72,7 @@ jobs:
           args: |
             sh -c "
             useradd -ms /bin/bash build-user
-            pacman -Syyu sudo base-devel git rust xorg-server libx11 libxext --needed --noconfirm
+            pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext --needed --noconfirm
             cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
             cd /tmp
             sudo -u build-user makepkg"
