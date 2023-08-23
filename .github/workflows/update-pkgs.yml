@@ -19,24 +19,20 @@ on:
 jobs:
   pentestdb-git:
     runs-on: ubuntu-latest
-    # container:
-    #   image: archlinux
+    container:
+      image: archlinux
     steps:
       - uses: actions/checkout@v3
       - name: "Build"
-        uses: docker://archlinux:latest
-        with:
-          volumes: "/tmp":"/tmp"
-          args: |
-            sh -c "
-            useradd -ms /bin/bash build-user
-            # pacman -Syyu sudo base-devel git rust --needed --noconfirm
-            cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
-            cd /tmp
-            # sudo -u build-user makepkg
-            echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
-            pwd
-            ls -la"
+        run: |
+          useradd -ms /bin/bash build-user
+          # pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
+          cd /tmp
+          # sudo -u build-user makepkg
+          echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+          pwd
+          ls -la
 
       - name: "Upload PTDB build artifacts"
         uses: actions/upload-artifact@v3
@@ -47,26 +43,20 @@ jobs:
 
   auto-desk-git:
     runs-on: ubuntu-latest
-    # container:
-    #   image: archlinux
+    container:
+      image: archlinux
     steps:
       - uses: actions/checkout@v3
       - name: "Build"
-        uses: docker://archlinux:latest
-        with:
-          volume: "/tmp":"/tmp"
-          args: |
-            sh -c "
-            useradd -ms /bin/bash build-user
-            # pacman-key --init 
-            # pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
-            cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
-            cd /tmp
-            # sudo -u build-user makepkg
-            pwd
-            ls -la
-            "
-
+        run: |
+          useradd -ms /bin/bash build-user
+          # pacman-key --init 
+          # pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
+          cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
+          cd /tmp
+          # sudo -u build-user makepkg
+          pwd
+          ls -la
       - name: "Upload auto-desk build artifacts"
         uses: actions/upload-artifact@v3
         with:
