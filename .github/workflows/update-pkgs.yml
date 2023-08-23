@@ -80,7 +80,7 @@ jobs:
           retention-days: 5
 
   update-repo:
-    needs: ["pentestdb-git"]
+    needs: ["pentestdb-git", "auto-desk-git"]
     runs-on: ubuntu-latest
     permissions:
       contents: write

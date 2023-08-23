@@ -16,12 +16,12 @@ Server = https://github.com/calacuda/$repo/raw/main/$arch
 
 a list of things to package and add to this repo.
 
-- pokedex-git
-- autodesk-git
-- auto-tmux-git
-- astro-nvim-git
-- astro-nvim-configs-git
-- bspwm-configs-git
-- qtile-configs-git
-- hyprland-configs-git
-- zsh-configs-git
+- [ ] pokedex-git
+- [x] autodesk-git
+- [ ] auto-tmux-git
+- [ ] astro-nvim-git
+- [ ] astro-nvim-configs-git
+- [ ] bspwm-configs-git
+- [ ] qtile-configs-git
+- [ ] hyprland-configs-git
+- [ ] zsh-configs-git
