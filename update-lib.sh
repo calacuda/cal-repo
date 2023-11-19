@@ -12,7 +12,10 @@ function push_changes {
 }
 
 function add_to_repo {
+  echo "*** Add to repo ***"
   cd x86_64
+  touch cal-repo.db.tar.gz cal-repo.files.tar.gz
+
   repo-add cal-repo.db.tar.gz *.pkg.tar.zst
   # ls -la
   mv cal-repo.db.tar.gz cal-repo.db
@@ -35,5 +38,5 @@ function update_one {
 function update_all {
   build_pkgs
   add_to_repo
-  push_changes
+  # push_changes
 }

@@ -17,30 +17,30 @@ on:
     - cron: "30 6 * * *"
 
 jobs:
-  pentestdb-git:
-    runs-on: ubuntu-latest
-    container:
-      image: archlinux
-    steps:
-      - uses: actions/checkout@v3
-      - name: "Build"
-        run: |
-          useradd -ms /bin/bash build-user
-          pacman-key --init 
-          pacman -Syyu sudo base-devel git rust --needed --noconfirm
-          cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
-          cd /tmp
-          sudo -u build-user makepkg
-          # echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
-          # pwd
-          # ls -la
-
-      - name: "Upload PTDB build artifacts"
-        uses: actions/upload-artifact@v3
-        with:
-          name: pentestdb-git
-          path: /tmp/pentestdb-git*
-          retention-days: 5
+  # pentestdb-git:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: archlinux
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: "Build"
+  #       run: |
+  #         useradd -ms /bin/bash build-user
+  #         pacman-key --init
+  #         pacman -Syyu sudo base-devel git rust --needed --noconfirm
+  #         cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
+  #         cd /tmp
+  #         sudo -u build-user makepkg
+  #         # echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+  #         # pwd
+  #         # ls -la
+  #
+  #     - name: "Upload PTDB build artifacts"
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: pentestdb-git
+  #         path: /tmp/pentestdb-git*
+  #         retention-days: 5
 
   auto-desk-git:
     runs-on: ubuntu-latest
@@ -52,10 +52,15 @@ jobs:
         run: |
           useradd -ms /bin/bash build-user
           pacman-key --init 
-          pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools --needed --noconfirm
+          pacman -Syyu sudo base-devel git rust xorg-server libx11 libxi libxext libxtst clang gcc iwd iw dbus pkgconf wpa_supplicant wireless_tools llvm glibc --needed --noconfirm
           cp pkgbuilds/x86_64/auto-desk-git/PKGBUILD /tmp
           cd /tmp
-          sudo -u build-user makepkg
+          echo "*** installing rust ***"
+          sudo -u build-user curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sudo -u build-user sh -s -- -y
+          sudo -u build-user echo "source $HOME/.cargo/env" >> "$HOME/.bashrc" 
+          # sudo -u build-user rustup update
+          echo "*** building pkg ***"
+          sudo -u build-user RUST_BACKTRACE=1 makepkg
           # pwd
           # ls -la
       - name: "Upload auto-desk build artifacts"
