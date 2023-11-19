@@ -7,7 +7,7 @@ pkg_ver=0.5.0
 
 # Maintainer: Calacuda <youremail@domain.com>
 pkgname=auto-desk-git
-pkgver=0.5.0.r
+pkgver=0.5.0
 pkgrel=1
 epoch=
 pkgdesc="Controls Linux tiling window managers and desktop environments."
@@ -15,11 +15,11 @@ arch=(x86_64)
 url="https://github.com/calacuda/auto-desk"
 license=('MIT')
 groups=()
-depends=()
-makedepends=(git rust clang gcc wpa_supplicant)
+depends=(xorg-server libx11 libxi libxext libxtst iwd iw dbus wpa_supplicant wireless_tools)
+makedepends=(git rust clang gcc wpa_supplicant clang)
 checkdepends=()
 optdepends=()
-provides=(ptdb)
+provides=(auto-desk)
 conflicts=()
 replaces=()
 backup=()
@@ -40,6 +40,8 @@ pkgver() {
 
 build() {
 	cd "$srcdir/$_pkgname/auto-desk"
+	# touch Cargo.lock
+	cargo update
  	cargo build --release --target-dir target
 }
 
