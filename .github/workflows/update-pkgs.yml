@@ -17,30 +17,30 @@ on:
     - cron: "30 6 * * *"
 
 jobs:
-  # pentestdb-git:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: archlinux
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: "Build"
-  #       run: |
-  #         useradd -ms /bin/bash build-user
-  #         pacman-key --init
-  #         pacman -Syyu sudo base-devel git rust --needed --noconfirm
-  #         cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
-  #         cd /tmp
-  #         sudo -u build-user makepkg
-  #         # echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
-  #         # pwd
-  #         # ls -la
-  #
-  #     - name: "Upload PTDB build artifacts"
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: pentestdb-git
-  #         path: /tmp/pentestdb-git*
-  #         retention-days: 5
+  pentestdb-git:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Build"
+        run: |
+          useradd -ms /bin/bash build-user
+          pacman-key --init
+          pacman -Syyu sudo base-devel git rust --needed --noconfirm
+          cp pkgbuilds/x86_64/pentestdb-git/PKGBUILD /tmp
+          cd /tmp
+          sudo -u build-user makepkg
+          # echo 'nothing' > pentestdb-git-0.3.10.rMVP.r17.gfafad86-1-x86_64.pkg.tar.zst
+          # pwd
+          # ls -la
+
+      - name: "Upload PTDB build artifacts"
+        uses: actions/upload-artifact@v3
+        with:
+          name: pentestdb-git
+          path: /tmp/pentestdb-git*
+          retention-days: 5
 
   auto-desk-git:
     runs-on: ubuntu-latest
